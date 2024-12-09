@@ -1,43 +1,35 @@
-import random
-import string
+def calculate_bmi(weight, height):
+    """Calculate BMI given weight in kilograms and height in meters."""
+    return weight / (height ** 2)
 
-def generate_password(length):
-    """Generate a random password of the specified length."""
-    if length < 4:
-        print("Password length must be at least 4 for security.")
-        return None
-    
-    # Define the character pools
-    lowercase_letters = string.ascii_lowercase
-    uppercase_letters = string.ascii_uppercase
-    digits = string.digits
-    special_characters = string.punctuation
-
-    # Ensure the password contains at least one of each type of character
-    password = [
-        random.choice(lowercase_letters),
-        random.choice(uppercase_letters),
-        random.choice(digits),
-        random.choice(special_characters)
-    ]
-
-    # Fill the rest of the password length with random characters
-    all_characters = lowercase_letters + uppercase_letters + digits + special_characters
-    password += random.choices(all_characters, k=length - 4)
-
-    # Shuffle the password to randomize character order
-    random.shuffle(password)
-    return ''.join(password)
+def get_bmi_category(bmi):
+    """Return the BMI category based on the BMI value."""
+    if bmi < 18.5:
+        return "Underweight"
+    elif 18.5 <= bmi < 24.9:
+        return "Normal weight"
+    elif 25 <= bmi < 29.9:
+        return "Overweight"
+    else:
+        return "Obese"
 
 def main():
-    print("Welcome to the Password Generator!")
+    print("Welcome to the BMI Calculator")
     try:
-        length = int(input("Enter the desired password length (minimum 4): "))
-        password = generate_password(length)
-        if password:
-            print(f"\nYour generated password is: {password}")
+        weight = float(input("Enter your weight in kilograms: "))
+        height = float(input("Enter your height in meters: "))
+        
+        if weight <= 0 or height <= 0:
+            print("Weight and height must be positive numbers.")
+            return
+
+        bmi = calculate_bmi(weight, height)
+        category = get_bmi_category(bmi)
+
+        print(f"\nYour BMI is: {bmi:.2f}")
+        print(f"Category: {category}")
     except ValueError:
-        print("Please enter a valid number for the password length.")
+        print("Please enter valid numerical values for weight and height.")
 
 if __name__ == "__main__":
     main()
